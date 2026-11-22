@@ -45,7 +45,10 @@ def _load_records_from_target(target_path: Path) -> tuple[list[dict[str, Any]], 
     if zipfile.is_zipfile(target_path):
         with zipfile.ZipFile(target_path, "r") as zf:
             names = zf.namelist()
-            json_name = next((n for n in names if n.endswith("graded_audit.json")), None)
+            json_name = next(
+                (n for n in names if n.endswith(("graded_audit.json", "graded_audit_results.json"))),
+                None,
+            )
             if not json_name:
                 raise ValueError(f"Archive {target_path.name} does not contain graded_audit.json")
             raw = json.loads(zf.read(json_name).decode("utf-8"))
