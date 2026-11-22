@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "llm-endpoint-red-team-cli"
+version = "1.0.0"
+description = "Zero-dependency preflight checker, CI/CD regression gate, and forensic .zip comparator for Prow // Red-Team."
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [{name = "Prow Labs", email = "noreply@prowlabs.io"}]
+keywords = ["llm-red-teaming", "ai-security-audit", "openai-compatible", "multimodal-evaluation", "prompt-injection", "llm-benchmark"]
+dependencies = []
+
+[project.urls]
+Homepage = "https://prowlabs.io"
+Console = "https://red-team.prowlabs.io"
+Teardowns = "https://prowlabs.io/teardowns/"
+Repository = "https://github.com/ProwLabsIO/llm-endpoint-red-team-cli"
+
+[project.scripts]
+prow-audit = "prow_audit:main"
+
+[tool.setuptools]
+py-modules = ["prow_audit"]

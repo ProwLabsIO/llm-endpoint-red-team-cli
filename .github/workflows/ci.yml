@@ -1,0 +1,28 @@
+name: Prow Audit CLI Smoke & Gate Verification
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+
+jobs:
+  verify-cli-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Verify Candidate Audit Bundle Meets Release Gate
+        run: |
+          python3 prow_audit.py gate samples/prow_redteam_sample_candidate.zip \
+            --min-pass-rate 100 \
+            --min-trap-escape 100 \
+            --max-errors 0 \
+            --require-suites CTX-001,EXF-001,HAL-001
+      - name: Compare Baseline vs Candidate Forensic Bundles
+        run: |
+          python3 prow_audit.py diff \
+            samples/prow_redteam_sample_baseline.zip \
+            samples/prow_redteam_sample_candidate.zip \
+            --fail-on-regression
